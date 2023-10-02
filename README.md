@@ -1,2 +1,2 @@
-# NanoPhi
-GPT-2 small trained on phi-like data
+# NanoGPT-bare
+minimum nanogpt-code

@@ -82,8 +82,8 @@ if compile:
 
 # gpt-2 encodings
 print("loading GPT-2 encodings...")
-enc = tiktoken.get_encoding("gpt2")
-encode = lambda s: enc.encode(s, allowed_special={"<endOfText>","<bot>","<human>","<system>"})
+enc = tiktoken.get_encoding("cl100k_base")
+encode = lambda s: enc.encode(s)
 decode = lambda l: enc.decode(l)
 
 
@@ -105,37 +105,13 @@ def respond(input, samples): # generation function
             for k in range(samples):
                 generated = model.generate(x, max_new_tokens, temperature=temperature, top_k=top_k)
                 output = decode(generated[0].tolist())
-
-                # gen sample
-                #print("--------------------")
-                #print(output)
-                #print("--------------------")
-              
-                # sanitation
-                # replace context
-                out = output.replace(input,'')
-                # remove any extra system response
-                out=out.partition('<system>')
-                # remove any human response
-                out =  out[0].partition('<human>')
-                # if the bot has anything left afterwards, the endOfText token is put to use
-                output_text =  out[0].rpartition('<endOftext>')
-                output_text = out[0] + out[1]
-                # label removing
-                output_text = output_text.replace('<human>',' ')
-                output_text = output_text.replace('<bot>',' ')
-                output_text = output_text.replace('<endOfText>',' ')
-                return output_text
+                return output
 
 # chat loop
 while True:
     # get input from user
     start_input = input('User: ')
-    start = '<human>'+start_input+'<endOfText><bot>'
-    context=context+start
-    
+    start = start_input
+    context=start    
     out = respond(context, num_samples)
-  
-    context=context+out+'<endOfText><system>You are an AI assistant named UNAGAMI, designed to help users<endOfText>'
-  
     print('Bot: '+ out)

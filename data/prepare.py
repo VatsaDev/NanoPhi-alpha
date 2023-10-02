@@ -6,7 +6,7 @@ import numpy as np
 
 train_ids=[]
 val_ids=[]
-enc = tiktoken.get_encoding("gpt2")
+enc = tiktoken.encoding_for_model("gpt-4")
 
 chunk_no=0
 def download_file(url, output_dir):

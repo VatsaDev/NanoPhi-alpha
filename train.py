@@ -21,6 +21,7 @@ import time
 import math
 import pickle
 from contextlib import nullcontext
+import requests
 
 import numpy as np
 import torch
@@ -72,6 +73,8 @@ backend = 'nccl' # 'nccl', 'gloo', etc.
 device = 'cuda' # examples: 'cpu', 'cuda', 'cuda:0', 'cuda:1' etc., or try 'mps' on macbooks
 dtype = 'bfloat16' if torch.cuda.is_available() and torch.cuda.is_bf16_supported() else 'float16' # 'float32', 'bfloat16', or 'float16', the latter will auto implement a GradScaler
 compile = True # use PyTorch 2.0 to compile the model to be faster
+# get train/val bins off HuggingFace
+hf_binaries=False 
 # -----------------------------------------------------------------------------
 config_keys = [k for k,v in globals().items() if not k.startswith('_') and isinstance(v, (int, float, bool, str))]
 exec(open('configurator.py').read()) # overrides from command line or config file
@@ -109,13 +112,34 @@ torch.backends.cudnn.allow_tf32 = True # allow tf32 on cudnn
 device_type = 'cuda' if 'cuda' in device else 'cpu' # for later use in torch.autocast
 # note: float16 data type will automatically use a GradScaler
 ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[dtype]
-ctx = nullcontext() if device_type == 'cpu' else torch.amp.autocast(device_type=device_type, dtype=ptdtype)
+ctx = nullcontext() if device_type == 'cpu' else torch.amp.autocast(device_type=device_type, dtype=ptdtype)   
 
-# poor man's data loader
+def download_file(url, file_name):
+  response = requests.get(url, stream=True)
+  if response.status_code == 200:
+    with open(file_name, 'wb') as f:
+      for chunk in response.iter_content(chunk_size=104857600):
+        if chunk:
+          f.write(chunk)
+    print(f"got: {file_name}")
+  else:
+    print('Error downloading file:', response.status_code)
+
 data_dir = os.path.join('data', dataset)
-train_data = np.memmap(os.path.join(data_dir, 'train.bin'), dtype=np.uint16, mode='r')
-val_data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=np.uint16, mode='r')
-def get_batch(split):
+
+if hf_binaries == True:
+    print("Using HuggingFace binaries...")
+    download_file('https://huggingface.co/datasets/VatsaDev/TinyText/resolve/main/valtotal.bin','valtotal.bin')
+    download_file('https://huggingface.co/datasets/VatsaDev/TinyText/resolve/main/traintotal.bin', 'traintotal.bin')
+    train_data = np.memmap('traintotal.bin', dtype=np.uint16, mode='r')
+    val_data = np.memmap('valtotal.bin', dtype=np.uint16, mode='r')
+    print("got binaries, batching")
+else:
+    print("Using regular binaries...")
+    train_data = np.memmap(os.path.join(data_dir, 'traintotal.bin'), dtype=np.uint16, mode='r')
+    val_data = np.memmap(os.path.join(data_dir, 'valtotal.bin'), dtype=np.uint16, mode='r')
+
+def get_batch(split): # change to use train data and val data from concat_bins
     data = train_data if split == 'train' else val_data
     ix = torch.randint(len(data) - block_size, (batch_size,))
     x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
@@ -130,15 +154,6 @@ def get_batch(split):
 # init these up here, can override if init_from='resume' (i.e. from a checkpoint)
 iter_num = 0
 best_val_loss = 1e9
-
-# attempt to derive vocab_size from the dataset
-meta_path = os.path.join(data_dir, 'meta.pkl')
-meta_vocab_size = None
-if os.path.exists(meta_path):
-    with open(meta_path, 'rb') as f:
-        meta = pickle.load(f)
-    meta_vocab_size = meta['vocab_size']
-    print(f"found vocab_size = {meta_vocab_size} (inside {meta_path})")
 
 # model init
 model_args = dict(n_layer=n_layer, n_head=n_head, n_embd=n_embd, block_size=block_size,

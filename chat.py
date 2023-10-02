@@ -81,9 +81,9 @@ if compile:
     model = torch.compile(model) # requires PyTorch 2.0 (optional)
 
 # gpt-2 encodings
-print("loading GPT-2 encodings...")
-enc = tiktoken.get_encoding("gpt2")
-encode = lambda s: enc.encode(s, allowed_special={"<endOfText>","<bot>","<human>","<system>"})
+print("loading GPT-4 encodings...")
+enc = tiktoken.encoding_for_model("gpt-4")
+encode = lambda s: enc.encode(s)
 decode = lambda l: enc.decode(l)
 
 

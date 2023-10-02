@@ -35,7 +35,7 @@ val_no = 0
 for filename in os.listdir('output'): #blocks are chosen randomly from the text, more of a seamless train val split
   if filename.endswith('.txt'):
     train_or_val = random.randint(0, 20)
-    if train_or_val <= 18:
+    if train_or_val <= 19:
       with open(f'output/{filename}', 'r') as f:
         data = f.read()
       train_ids = enc.encode_ordinary(data)
@@ -45,7 +45,7 @@ for filename in os.listdir('output'): #blocks are chosen randomly from the text,
       train_ids.tofile(os.path.join(f'train{train_no}.bin'))
       print(f"train has {train_len} tokens")
       train_ids = []
-    if train_or_val > 18:
+    if train_or_val > 19:
       with open(f'output/{filename}', 'r') as f:
         data = f.read()
       val_ids = enc.encode_ordinary(data)

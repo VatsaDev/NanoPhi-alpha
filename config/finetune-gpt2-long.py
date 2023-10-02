@@ -8,12 +8,12 @@ wandb_project = 'gpt2finetune'
 wandb_run_name = 'ft-' + str(time.time())
 
 dataset = ''
-init_from = 'gpt2-medium' # good for google colab
+init_from = 'gpt2' # good for google colab
 
 # only save checkpoints if the validation loss improves
 always_save_checkpoint = False
 
-batch_size = 4
+batch_size = 1
 gradient_accumulation_steps = 32
 max_iters = 200
 

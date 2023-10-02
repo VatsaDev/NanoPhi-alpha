@@ -4,6 +4,7 @@ Finetuning GPT-2 (124m) with Phi-1.5 like Data, to see how the model improves, a
 Data is tiny-textbooks and the sciphi dataset
 
 Goals
+ - Hope to pretrain GPT-2 instead of finetune, GPU funding would be amazing!
  - total of ~640 million tokens(20x, need to be at 2.4B), undertrained by chinchilla scaling, need more data
  - work with GPT-2 124m and 355m, build up strong tiny LMs
  - try integrating Orca's student teacher style with GPT-2

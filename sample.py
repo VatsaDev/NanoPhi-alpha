@@ -65,8 +65,8 @@ if load_meta:
     decode = lambda l: ''.join([itos[i] for i in l])
 else:
     # ok let's assume gpt-2 encodings by default
-    print("No meta.pkl found, assuming GPT-2 encodings...")
-    enc = tiktoken.get_encoding("gpt2")
+    print("No meta.pkl found, assuming GPT-4 encodings...")
+    enc = tiktoken.encoding_for_model("gpt-4")
     encode = lambda s: enc.encode(s, allowed_special={"<|endoftext|>"})
     decode = lambda l: enc.decode(l)
 

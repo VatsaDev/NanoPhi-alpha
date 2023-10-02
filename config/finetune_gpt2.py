@@ -8,7 +8,7 @@ wandb_project = 'gpt2finetune'
 wandb_run_name = 'ft-' + str(time.time())
 
 dataset = ''
-init_from = 'gpt2-small' # good for google colab
+init_from = 'gpt2' # 124m
 
 # only save checkpoints if the validation loss improves
 always_save_checkpoint = False

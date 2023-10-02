@@ -2,6 +2,7 @@
 
 Finetuning GPT-2 (124m) with Phi-1.5 like Data, to see how the model improves, and how strong tiny LMs can get
 Data is tiny-textbooks and the sciphi dataset
+Colab -> https://colab.research.google.com/drive/1UkhcgP7rAAonKhnyj9Ip3Tt1PHeimcIE?usp=sharing (I'm working with it, could break any moment, please copy your own)
 
 Goals
  - Hope to pretrain GPT-2 instead of finetune, GPU funding would be amazing!

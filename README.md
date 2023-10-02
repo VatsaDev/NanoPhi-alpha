@@ -4,7 +4,7 @@ Finetuning GPT-2 (124m) with Phi-1.5 like Data, to see how the model improves, a
 Data is tiny-textbooks and the sciphi dataset
 Colab -> https://colab.research.google.com/drive/1UkhcgP7rAAonKhnyj9Ip3Tt1PHeimcIE?usp=sharing (I'm working with it, could break any moment, please copy your own)
 
-[1/10/23] first GPT-2 finetune
+[1/10/23] first GPT-2 finetune      
 [2/10/23] Switch the model to the GPT-4 tokenizer, preparing dataset
 
 Goals

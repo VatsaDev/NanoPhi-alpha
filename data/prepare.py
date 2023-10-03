@@ -34,8 +34,8 @@ train_no = 0
 val_no = 0
 for filename in os.listdir('output'): #blocks are chosen randomly from the text, more of a seamless train val split
   if filename.endswith('.txt'):
-    train_or_val = random.randint(0, 9)
-    if train_or_val <= 8:
+    train_or_val = random.randint(0, 30)
+    if train_or_val <= 29:
       with open(f'output/{filename}', 'r') as f:
         data = f.read()
       train_ids = enc.encode_ordinary(data)
@@ -45,7 +45,7 @@ for filename in os.listdir('output'): #blocks are chosen randomly from the text,
       train_ids.tofile(os.path.join(os.path.dirname(__file__), f'train{train_no}.bin'))
       print(f"train has {train_len} tokens")
       train_ids = []
-    if train_or_val > 8:
+    if train_or_val > 29:
       with open(f'output/{filename}', 'r') as f:
         data = f.read()
       val_ids = enc.encode_ordinary(data)
@@ -58,20 +58,20 @@ for filename in os.listdir('output'): #blocks are chosen randomly from the text,
 
 # data loader
 dataset = ''
-data_dir = os.path.join('data', dataset)
+data_dir = os.path.join('output', dataset)
 total_train_data=[10] # just keeping arrays not empty
 total_val_data=[10]
 total_train_data=np.array(total_train_data, dtype=np.uint16)
 total_val_data=np.array(total_val_data, dtype=np.uint16)
-total_train_data.tofile('/content/NanoCode/data/traintotal.bin')
-total_val_data.tofile('/content/NanoCode/data/valtotal.bin')
+total_train_data.tofile('/content/output/traintotal.bin')
+total_val_data.tofile('/content/output/valtotal.bin')
 total_train_data=np.memmap(os.path.join(data_dir, 'traintotal.bin'), dtype=np.uint16, mode='r')
 total_val_data=np.memmap(os.path.join(data_dir, 'valtotal.bin'), dtype=np.uint16, mode='r')
 
 def concat_bins():
     global total_val_data
     global total_train_data
-    for filename in os.listdir('data'):
+    for filename in os.listdir('output'):
       if filename.endswith('.bin'):
         if filename[:3] == 'val':
             # Val files
@@ -79,14 +79,14 @@ def concat_bins():
             val_data = np.memmap(os.path.join(data_dir, filename), dtype=np.uint16, mode='r')
             total_val_data = np.concatenate([total_val_data, val_data])
             del val_data
-            total_val_data.tofile('/content/NanoCode/data/valtotal.bin')
+            total_val_data.tofile('/content/output/valtotal.bin')
         else:
             # Train files
             print(f"concat {filename}")
             train_data = np.memmap(os.path.join(data_dir, filename), dtype=np.uint16, mode='r')
             total_train_data = np.concatenate([total_train_data, train_data])
             del train_data
-            total_train_data.tofile('/content/NanoCode/data/traintotal.bin')
+            total_train_data.tofile('/content/output/traintotal.bin')
     print("concat over")
 
 concat_bins()

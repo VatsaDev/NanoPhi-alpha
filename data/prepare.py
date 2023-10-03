@@ -26,7 +26,7 @@ def download_file(url, output_dir):
   else:
     print('Error downloading file:', response.status_code)
 
-download_file('https://huggingface.co/VatsaDev/NanoCode/resolve/main/data.txt', 'output')
+download_file('https://huggingface.co/datasets/VatsaDev/TinyText/resolve/main/full.txt', 'output')
 
 train_len = 0
 val_len = 0

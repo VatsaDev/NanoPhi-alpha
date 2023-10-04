@@ -12,12 +12,12 @@ out_dir = '/content/drive/MyDrive/Model' # finetuned model directory
 num_samples = 1 # no samples. 1 for 1 chat at a time
 max_new_tokens = 150
 ans_long=True
-temperature = 0.85 
+temperature = 0.9
 top_k = 10 # retain only the top_k most likely tokens, clamp others to have 0 probability
 device = 'cuda' # examples: 'cpu', 'cuda', 'cuda:0', 'cuda:1', etc.
 dtype = 'bfloat16' if torch.cuda.is_available() and torch.cuda.is_bf16_supported() else 'float16' # 'float32' or 'bfloat16' or 'float16'
 compile = True # use PyTorch 2.0 to compile the model to be faster
-context=""
+context="<system>You are an AI assistant named UNAGAMI, designed to help users<endOfText>"
 exec(open('configurator.py').read()) # overrides from command line
 # -----------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ if init_from == 'huggingface':
     model.load_state_dict(state_dict) 
   else:
     # init from huggingface model
-    download_ckpt('https://huggingface.co/VatsaDev/NanoCode/resolve/main/ckpt.pt')
+    download_ckpt('https://huggingface.co/VatsaDev/NanoPhi/resolve/main/ckpt.pt')
     ckpt_path = 'ckpt.pt'
     checkpoint = torch.load(ckpt_path, map_location=device)
     gptconf = GPTConfig(**checkpoint['model_args'])
@@ -82,17 +82,9 @@ if compile:
 
 # gpt-2 encodings
 print("loading GPT-2 encodings...")
-enc = tiktoken.get_encoding("cl100k_base")
+enc = tiktoken.get_encoding("gpt2")
 encode = lambda s: enc.encode(s)
 decode = lambda l: enc.decode(l)
-
-
-def remov_sys(text):
-  tok_index = text.find("<system>", text.find("<system>") + 1)
-  if tok_index == -1:
-    return text
-  else:
-    return text[:tok_index]
 
 def respond(input, samples): # generation function
     if ans_long == True:
@@ -105,37 +97,11 @@ def respond(input, samples): # generation function
             for k in range(samples):
                 generated = model.generate(x, max_new_tokens, temperature=temperature, top_k=top_k)
                 output = decode(generated[0].tolist())
-
-                # gen sample
-                #print("--------------------")
-                #print(output)
-                #print("--------------------")
-              
-                # sanitation
-                # replace context
-                out = output.replace(input,'')
-                # remove any extra system response
-                out=out.partition('<system>')
-                # remove any human response
-                out =  out[0].partition('<human>')
-                # if the bot has anything left afterwards, the endOfText token is put to use
-                output_text =  out[0].rpartition('<endOftext>')
-                output_text = out[0] + out[1]
-                # label removing
-                output_text = output_text.replace('<human>',' ')
-                output_text = output_text.replace('<bot>',' ')
-                output_text = output_text.replace('<endOfText>',' ')
-                return output_text
+                return output
 
 # chat loop
 while True:
     # get input from user
     start_input = input('User: ')
-    start = '<human>'+start_input+'<endOfText><bot>'
-    context=context+start
-    
-    out = respond(context, num_samples)
-  
-    context=context+out+'<endOfText>'
-  
+    out=respond(start_input, num_samples) 
     print('Bot: '+ out)

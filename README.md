@@ -8,6 +8,7 @@ Data is tiny-textbooks and the sciphi dataset
 Goals
  - Hope to pretrain GPT-2 instead of finetune, GPU funding would be amazing!
  - total of ~640 million tokens(20x, need to be at 7.1B), undertrained by chinchilla scaling, need more data
+ - The models repetitive(mitigated by decreasing top_k, increasing temp), add data labeling and more diverse data, for multitask training
  - work with GPT-2 355m, build up strong tiny LMs
  - try integrating Orca's student teacher style with GPT-2
  - Combine Phi informational capabilities, Orca, instruct/chat model, ultimate tinyLM?

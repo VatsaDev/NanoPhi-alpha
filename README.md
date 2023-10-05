@@ -5,8 +5,10 @@
 [4/10/23] - Multitask finetuned, labeled the whole dataset, really good, and also uncensored
 
 ---
-### [Chat Now!](https://colab.research.google.com/drive/1ozI-oNyrCq1V7A3i7X-yAuv5sc2QT9Ec?usp=sharing)*
-*chat doesn't hold context yet, WIP, just copypaste the content for cont. discussion
+~~### [Chat Now!](https://colab.research.google.com/drive/1ozI-oNyrCq1V7A3i7X-yAuv5sc2QT9Ec?usp=sharing)*~~
+~~*chat doesn't hold context yet, WIP, just copypaste the content for cont. discussion~~
+
+Bug fixes, chat coming soon!
 
 Objective - Finetuning GPT-2-medium (355m) with Phi-1.5 like Data, to see how the model improves, and how strong tiny LMs can get
 

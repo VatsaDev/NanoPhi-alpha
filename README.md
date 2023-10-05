@@ -1,7 +1,12 @@
 # NanoPhi
+---
 [1/10/23] - first model trained        
 [3/10/23] - Code was acting up, and sadly, I can't switch to GPT-4 tokenizer without a pretrain, but now we use gpt-2-medium, and the models really improved!    
 [4/10/23] - Multitask finetuned, labeled the whole dataset, really good, and also uncensored
+
+---
+### [Chat Now!](https://colab.research.google.com/drive/1ozI-oNyrCq1V7A3i7X-yAuv5sc2QT9Ec?usp=sharing)*
+*chat doesn't hold context yet, WIP, just copypaste the content for cont. discussion
 
 Objective - Finetuning GPT-2-medium (355m) with Phi-1.5 like Data, to see how the model improves, and how strong tiny LMs can get
 

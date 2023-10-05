@@ -13,17 +13,14 @@ Bug fixes, chat coming soon!
 Objective - Finetuning GPT-2-medium (355m) with Phi-1.5 like Data, to see how the model improves, and how strong tiny LMs can get
 
 Features
- - GPT-2 355m, With Phi-1.5 like data,
+ - GPT-2 355m, Trained with a diverse dataset, meant to emulate some success With Phi-1.5 like data
  - working for multiple types of tasks (textbook, qa, dialogue/roleplay)
  - uncensored model
 
 Goals
  - Hope to pretrain GPT-2 instead of finetune, increase the context length to something higher, like 4K or 8K, and need more compute to run a whole dataset finetune, GPU funding would be amazing!
  - total of ~1.2B tokens(20x, need to be at 7.1B), undertrained by chinchilla scaling, need more data
- - The models repetitive(mitigated by decreasing top_k, increasing temp), add data labeling and more diverse data
- - work with GPT-2 355m, build up strong tiny LMs
- - try integrating Orca's student teacher style with GPT-2
- - Combine Phi informational capabilities, Orca, instruct/chat model, ultimate tinyLM?
+ - Add Math/Logic/code data
 
 ## samples
  - Tuning Hyperparams, and messing with top_k and temp, has led to some beautiful outputs

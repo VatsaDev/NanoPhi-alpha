@@ -1,26 +1,22 @@
 # NanoPhi
----
+
 [1/10/23] - first model trained        
 [3/10/23] - Code was acting up, and sadly, I can't switch to GPT-4 tokenizer without a pretrain, but now we use gpt-2-medium, and the models really improved!    
 [4/10/23] - Multitask finetuned, labeled the whole dataset, really good, and also uncensored
 
 ---
-~~### [Chat Now!](https://colab.research.google.com/drive/1ozI-oNyrCq1V7A3i7X-yAuv5sc2QT9Ec?usp=sharing)*~~
-~~*chat doesn't hold context yet, WIP, just copypaste the content for cont. discussion~~
-
-Bug fixes, chat coming soon!
+Chat coming soon!
 
 Objective - Finetuning GPT-2-medium (355m) with Phi-1.5 like Data, to see how the model improves, and how strong tiny LMs can get
 
 Features
  - GPT-2 355m, Trained with a diverse dataset, meant to emulate some success With Phi-1.5 like data
- - working for multiple types of tasks (textbook, qa, dialogue/roleplay)
+ - working for multiple types of tasks (textbook, qa, dialogue/roleplay, math/code/logic)
  - uncensored model
 
 Goals
  - Hope to pretrain GPT-2 instead of finetune, increase the context length to something higher, like 4K or 8K, and need more compute to run a whole dataset finetune, GPU funding would be amazing!
- - total of ~1.2B tokens(20x, need to be at 7.1B), undertrained by chinchilla scaling, need more data
- - Add Math/Logic/code data
+ - total of ~1.4B tokens(20x, need to be at 7.1B), undertrained by chinchilla scaling, need more data
 
 ## samples
  - Tuning Hyperparams, and messing with top_k and temp, has led to some beautiful outputs

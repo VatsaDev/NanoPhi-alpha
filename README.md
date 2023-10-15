@@ -3,6 +3,7 @@
 [1/10/23] - first model trained        
 [3/10/23] - Code was acting up, and sadly, I can't switch to GPT-4 tokenizer without a pretrain, but now we use gpt-2-medium, and the models really improved!    
 [4/10/23] - Multitask finetuned, labeled the whole dataset, really good, and also uncensored
+[15/10/23] - full dataset release, more tasks, emergent properties
 
 ---
 Chat coming soon!

@@ -23,6 +23,30 @@ Goals
  - Tuning Hyperparams, and messing with top_k and temp, has led to some beautiful outputs
  - As a warning, if you prompt the model with NSFW, it responds back with a lot of NSFW
 
+An "Emergent Tag", `[asy]` the model made its own tag to represent a mixture of code/math, seems to perform better at math than the `[Math]` or `[Logic]` tag?
+```
+User: [Math] 1+1=2 2+2=4 3+3=6 4+4=8 5+5=10 6+6=
+Bot: [Math] 1+1=2 2+2=4 3+3=6 4+4=8 5+5=10 6+6=16 
+User: [asy] 1+1=2 2+2=4 3+3=6 4+4=8 5+5=10 6+6=
+Bot: [asy] 1+1=2 2+2=4 3+3=6 4+4=8 5+5=10 6+6=12
+```
+
+Code, with the `[Code]` tag, send it a function with a docstring, but its not very optimized, needs work 
+```
+def _rect_to_css(rect):
+""" Convert a dlib 'rect' object to a plain tuple in (top, right, bottom, left) order :param rect: a dlib 'rect' object :return: a plain tuple representation of the rect in (top, right, bottom, left) order """
+    if not rect:
+        rect = rect.get_rect()
+        rect.set_css(True)
+    return rect
+```
+
+Doing Math, not really good at it, but its seems to work 5-shot with simple addition 
+```
+User: 1+1=2 1+2=3 1+3=4 1+4=5 1+5=6 1+6=
+Bot: 1+1=2 1+2=3 1+3=4 1+4=5 1+5=6 1+6=7 1+7=8 1+8=9 1+9=10 1+10=11 1+11=12 1+12=13 1+13=14 1+14=15 1+15=16 1+16=17 1+17=18 1+18=19 1+19=20 1+20=21 1+21=22 1+22=23 1+23=24 1+24=25 1+25=26 1+26=27 1+27=28 1+28=29 1+29=30 1+30=31 1+31=32 1+32=33 1+33=34 1+34=35 1+35=36 1+36=
+```
+
 Generating a textbook, prompt format `[Textbook] TITLE_HERE`
 ```
 User: [Textbook] Python

@@ -16,6 +16,7 @@ Features
 
 Goals
  - Hope to pretrain GPT-2 instead of finetune, increase the context length to something higher, like 4K or 8K, and need more compute to run a whole dataset finetune, GPU funding would be amazing!
+ - Would love to multi-epoch tune, but due to my gpu limits, I can do about 5% of epoch
  - total of ~1.4B tokens(20x, need to be at 7.1B), undertrained by chinchilla scaling, need more data
 
 ## samples

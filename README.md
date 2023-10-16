@@ -2,11 +2,11 @@
 
 [1/10/23] - first model trained        
 [3/10/23] - Code was acting up, and sadly, I can't switch to GPT-4 tokenizer without a pretrain, but now we use gpt-2-medium, and the models really improved!    
-[4/10/23] - Multitask finetuned, labeled the whole dataset, really good, and also uncensored
+[4/10/23] - Multitask finetuned, labeled the whole dataset, really good, and also uncensored    
 [15/10/23] - full dataset release, more tasks, emergent properties
 
 ---
-Chat coming soon!
+Chat Avalible at Colab -> https://colab.research.google.com/drive/1gvTsyjxHiDkKHFsnWWouzr1xJWW23BA3?usp=sharing
 
 Objective - Finetuning GPT-2-medium (355m) with Phi-1.5 like Data, to see how the model improves, and how strong tiny LMs can get
 
@@ -20,8 +20,14 @@ Goals
  - Would love to multi-epoch tune, but due to my gpu limits, I can do about 5% of epoch
  - total of ~1.4B tokens(20x, need to be at 7.1B), undertrained by chinchilla scaling, need more data
 
+Finetuning Process
+ - For 200 iters, Eval every 5 iters (could be higher)
+ - Batch size of 4 (Equal to micro_batch_size for NanoGPT), and gradient_accumulation_steps = 80 (Equal to batch size for NanoGPT)
+ - tokens per iteration, 327,680, 1.4B per epoch, so about 5% of an Epoch
+ - Takes about 4 hrs on a T4 GPU, MFU at 3-4% (Unusually low?), final train/val loss at 1.24/1.27
+
 ## samples
- - Tuning Hyperparams, and messing with top_k and temp, has led to some beautiful outputs
+ - Tuning Hyperparams, and messing with top_k(5-10) and temp(0.85-0.9), has led to some beautiful outputs
  - As a warning, if you prompt the model with NSFW, it responds back with a lot of NSFW
 
 An "Emergent Tag", `[asy]` the model made its own tag to represent a mixture of code/math, seems to perform better at math than the `[Math]` or `[Logic]` tag?

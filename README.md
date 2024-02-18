@@ -1,4 +1,4 @@
-# NanoPhi
+# NanoPhi-alpha
 
 [1/10/23] - first model trained        
 [3/10/23] - Code was acting up, and sadly, I can't switch to GPT-4 tokenizer without a pretrain, but now we use gpt-2-medium, and the models really improved!    
